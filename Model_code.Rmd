@@ -375,13 +375,6 @@ saveRDS(data2, sprintf("model_result.rds"))
 ```
 
 
-Now running it for 90 models together
-
-Check which models converge by length od deltamat. If 300,000 then not converged.
-Clean and deltamat of NAs before merging with 26:90 dataset. <- IMP
-Then run model metrics with a change in taking delta_final and beta_mean since now counts are different for models 1:25.
-use "tail" fucntion for the same for the firsdt 25 models
-
 ```{r message=FALSE, warning=FALSE}
 y_sd = 14
 models=90
