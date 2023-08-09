@@ -1,4 +1,4 @@
-# Football-Bayesian
+# Football-forecasting-Bayesian
 ### Replication code for the article ''Real-time forecasting within soccer matches through a Bayesian lens"
 
 The data used is publicly available on Kaggle (link: https://www.kaggle.com/datasets/hugomathien/soccer). We first extract the required data from the sqlite file on Kaggle using : extract_data_sqlite.R .
