@@ -15,7 +15,7 @@ library(coda)
 #Outcome variable created from all_incidents dataset (card variable split in two)
 
 ```{r}
-data_all_goalcard = read.csv("C:/Decision Sciences/Term III/IS Term III/Data/EPL Data/all_incidents.csv",header = TRUE)
+data_all_goalcard = read.csv("all_incidents.csv",header = TRUE)
 
 data_all_card = data_all_goalcard%>% filter((type == "goal" & (subtype1 =="n"|subtype1 =="o"|subtype1 =="p"))| type != "goal") #Remove all goal subtype1's except o,n,p
 data_all = data_all_card%>% filter((type == "card" & !is.na(subtype1))|type != "card") #Remove all NA card subtype1's
@@ -23,14 +23,12 @@ data = data_all
 data$type = ifelse(data$type == "card" & data$subtype1 == "y","card_y",data$type) #Separating red and yellow cards
 ```
 
-#Data_all contains filtered goals and card outcomes
-
 ```{r}
-data_y = read.csv("C:/Decision Sciences/Term III/IS Term III/Data/EPL Data/matchdetails.csv",header = TRUE)
+data_y = read.csv("matchdetails.csv",header = TRUE)
 ```
 
 ```{r}
-data_x = read.csv("C:/Decision Sciences/Term III/IS Term III/Data/EPL Data/player_details.csv",header=TRUE)
+data_x = read.csv("player_details.csv",header=TRUE)
 ```
 
 #Changing team id for "o" subtype goals(owngoals)
@@ -69,8 +67,6 @@ data1ab = merge(data1,data_ha4)
 data1ab = data1ab[order(data1ab$type,data1ab$game_id,data1ab$Indicator_HA),]
 data1a = data1ab #Removing indicator after ordering
 ```
-
-data1a has data sorted st for each type and game home team observations come first
 
 ```{r}
 u_type = unique(data1a$type)
@@ -189,16 +185,10 @@ s9_g = merge(s9_f,s8[[8]],by.x = "cardgame_id",by.y = "shotongame_id",all = TRUE
 s9 = merge(s9_g,s8[[9]],by.x = "cardgame_id",by.y = "throwingame_id",all = TRUE)
 ```
 
-
-S9 is a dataset with NAs
-
 ```{r}
 s9[is.na(s9)] <- 0
 s10 = s9
 ```
-
-S10 is a dataset without NAs
-
 
 ```{r}
 data_y1 = data_y %>% dplyr::select(id, home_team_api_id, away_team_api_id, home_team_goal, away_team_goal)
@@ -261,15 +251,9 @@ s12_b = merge(s12,overall_avg_data,by.x = "cardgame_id",by.y = "id")
 
 ```{r}
 
-#removing id vars
-
 columns_to_remove <- grep("_id", names(s12_b))
 s13 = s12_b %>% dplyr::select(-columns_to_remove)
 ```
-
-S13 is data with outcome variable (ordinal) and team id variable removed. (S13 - Outcome) will be the design matrix X.
--Yet to add strength of team as a covariate. (Done)
--Yet to match Home/Away team (Done)
 
 ```{r}
 d = duplicated(s13) #Search for row duplicates
@@ -281,8 +265,6 @@ d4 = colnames(d3)
 s14_b = s13 %>% dplyr::select(-d4) #Data without duplicates with response variable
 ```
 
-S14_b does not have duplicate rows or columns.
-
 ```{r}
-write.csv(s13,"C:\\Decision Sciences\\Term III\\IS Term III\\Data\\EPL Data\\Finaldata4c_complete.csv", row.names = TRUE)
+write.csv(s13,"Finaldata4c_complete.csv", row.names = TRUE)
 ```
